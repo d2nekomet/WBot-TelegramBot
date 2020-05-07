@@ -1,5 +1,5 @@
 # WBot-TelegramBot
-Telehram Bot проекта https://t.me/www_project . 
+Telegram Bot проекта https://t.me/www_project . 
  
 Установка:
 1) git clone https://github.com/d2nekomet/WBot-TelegramBot
