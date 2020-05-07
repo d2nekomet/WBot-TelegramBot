@@ -1,6 +1,5 @@
 #Бот канала t.me/www_project 
 #Написан t.me/os_people
-#Emoji for message        💻   📷 📸 📹 🎥 📽💡💣🧱📁 📂 🗂🔍 🔎 🔏 🔐 🔒 🔓❤️ 🧡 💛 💚 💙 💜 🖤☢️ ☣️ 📴 📳🆔  ✉️ 📩 📨 📧 💌  📱 📲 💻 ⌨️ 🖥 🖨
 ##########################
 import time
 import os
