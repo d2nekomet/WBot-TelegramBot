@@ -1,5 +1,5 @@
 # WBot-TelegramBot
-Telegram Bot проекта https://t.me/www_project . 
+Telegram Bot проекта https://t.me/www_project     
 Russian version (Русская версия):
 
 Установка:
@@ -11,10 +11,12 @@ Russian version (Русская версия):
 В будущем сделаю добавление токена и id админа автоматизированным!
 
 Автор:
-Telegram - t.me/os_people
+Telegram - t.me/os_people    
 Email: regadlyakoechego@tutanota.com    
 
-English version (Английская версия):
+English version (Английская версия):    
+
+Project Telegram Bot https://t.me/www_project    
 
 Install:    
 1. git clone https://github.com/d2nekomet/WBot-TelegramBot
@@ -25,5 +27,5 @@ Do not forget to add a token of their bot code, and your id!
 In the future, I will make token adding and id admin automated!    
 
 Author:
-Telegram - t.me/os_people
+Telegram - t.me/os_people    
 Email: regadlyakoechego@tutanota.com
