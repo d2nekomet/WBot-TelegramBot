@@ -1,5 +1,8 @@
 import os
 import time
+
+
+
 def startinstall():
 	print('''
 ──────╔═══╗╔═══╗╔═══╗──╔╗╔═══╗╔═══╗╔════╗
@@ -14,7 +17,11 @@ Author: https://t.me/os_people\n''')
 1) Полная автоматическая установка (Для Debian и Ubuntu based дистрибутивов)
 2) Базовая установка (без запуска бота)
 3) Запуск бота в фоне.
-4) Инструкция по установке.''')
+4) Установка бота в Termux.
+5) Инструкция по установке.
+Other:
+a) Ввести токен бота
+b) Ввести TelegramID админа''')
 	setinstall = input('Выберите: ')
 	if setinstall == '1':
 		print('Полная установка бота.\n')
@@ -23,9 +30,20 @@ Author: https://t.me/os_people\n''')
 		os.system('chmod +x bot.py')
 		print('Все зависимости установлены.\n')
 		os.system('sudo apt install screen python3-pip -y')
-		print('Screen и python3-pip утсановлены.\n')
+		print('Screen и python3-pip установлен.\n')
 		os.system('pip3 install pyTelegramBotAPI')
 		print('Модуль pyTelegramBotAPI установлен\n.')
+		os.system('mkdir Config')
+		tokenfilev = input('Введите свой токен бота: ')
+		tokenfile = open('Config/token.txt', 'w+')
+		tokenfile.write(str(tokenfilev))
+		tokenfile.close()
+		print('\nТокен установлен!')
+		adminfile = input('Введите свой TelegramID: ')
+		adminfilef = open('Config/adminid.txt', 'w+')
+		adminfilef.write(str(adminfile))
+		adminfilef.close()
+		print('\nTelegramID установлен!\n')
 		os.system('screen python3 bot.py')
 		print('Бот успешно установлен!\nУдачного использования!')
 	elif setinstall == '2':
@@ -45,6 +63,20 @@ Author: https://t.me/os_people\n''')
 		os.system('screen python3 bot.py')
 		print('\n!!!!!Если бот упал - надо создать папку Logs.\nЕсли все еще падает - сделайте полную установку выбрав пункт 1. !!!!!')
 	elif setinstall == '4':
+		print('Установка бота на Termux...')
+		time.sleep(2)
+		os.system('pkg update')
+		os.system('apt update && apt upgrade')
+		os.system('pkg install nano python -y')
+		os.system('pip3 install pyTelegramBotAPI')
+		os.system('cd WBot-TelegramBot')
+		os.system('chmod +x bot.py')
+		os.system('mkdir Logs')
+		print('\n \n Усстановка завершена! Для запуска напишите python3 bot.py !\n')
+
+
+
+	elif setinstall == '5':
 		print('''Привет! Ты выбрал режим ручной установки бота WBot для телеграм.
 Открой второе окно терминала и делай все по инструкции! 
 Удачи)
@@ -79,4 +111,18 @@ Author: https://t.me/os_people\n''')
 8) python3 bot.py
 
 Вот и все!''')
+	elif setinstall == 'a':
+		os.system('mkdir Config')
+		tokenfilev = input('Введите свой токен бота: ')
+		tokenfile = open('Config/token.txt', 'w+')
+		tokenfile.write(str(tokenfilev))
+		tokenfile.close()
+		print('\nТокен установлен!\n')
+	elif setinstall == 'b':
+		os.system('mkdir Config')
+		adminfilev = input('Введите свой TelegramID: ')
+		adminfile = open('Config/adminid.txt', 'w+')
+		adminfile.write(str(adminfilev))
+		adminfile.close()
+		print('\nTelegramID установлен!\n')
 startinstall()
