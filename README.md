@@ -7,10 +7,9 @@ Russian version (Русская версия):
 2. cd WBot-TelegramBot
 3. python3 install.py
 
-Не забудьте добавить в код токен своего бота и ваш id!    
-В будущем сделаю добавление токена и id админа автоматизированным!
+Никакой токен в бота не вводить! Все делается с через install.py!!!
 
-Автор:
+Автор:    
 Telegram - t.me/os_people    
 Email: regadlyakoechego@tutanota.com    
 
@@ -23,9 +22,8 @@ Install:
 2. cd WBot-TelegramBot
 3. python3 install.py    
 
-Do not forget to add a token of their bot code, and your id!
-In the future, I will make token adding and id admin automated!    
+No token the bot not to enter! All done through install.py !!!
 
-Author:
+Author:    
 Telegram - t.me/os_people    
 Email: regadlyakoechego@tutanota.com
