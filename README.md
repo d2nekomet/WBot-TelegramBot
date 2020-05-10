@@ -5,7 +5,7 @@ Russian version (Русская версия):
 Установка:
 1. git clone https://github.com/d2nekomet/WBot-TelegramBot
 2. cd WBot-TelegramBot
-3. python3 install.py
+3. sudo python3 install.py
 
 Никакой токен в бота не вводить! Все делается с через install.py!!!
 
@@ -20,7 +20,7 @@ Project Telegram Bot https://t.me/www_project
 Install:    
 1. git clone https://github.com/d2nekomet/WBot-TelegramBot
 2. cd WBot-TelegramBot
-3. python3 install.py    
+3. sudo python3 install.py    
 
 No token the bot not to enter! All done through install.py !!!
 
