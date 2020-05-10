@@ -1,6 +1,6 @@
 #Бот канала t.me/www_project 
 #Написан t.me/os_people
-#Emoji for message        💻📷 📸 📹 🎥 📽💡💣🧱📁 📂 🗂🔍 🔎 🔏 🔐 🔒 🔓❤️ 🧡 💛 💚 💙 💜 🖤☢️ ☣️ 📴 📳🆔  ✉️ 📩 📨 📧 💌  📱 📲 💻 ⌨️ 🖥 🖨
+#Emoji for message      	➡	⬅🔃  💻📷 📸 📹 🎥 📽💡💣🧱📁 📂 🗂🔍 🔎 🔏 🔐 🔒 🔓❤️ 🧡 💛 💚 💙 💜 🖤☢️ ☣️ 📴 📳🆔  ✉️ 📩 📨 📧 💌  📱 📲 💻 ⌨️ 🖥 🖨
 ##########################
 import time
 import os
@@ -22,8 +22,8 @@ adminidr = adminidf.read()
 print('Ваш TelegramID: ' + adminidr + '\nВаш токен бота: ' + TOKEN)
 
 idslist = open('idlist.txt', 'a+')
-bot = telebot.TeleBot(TOKEN) # TOKEN # TelegramID админа
-adminid = int(adminidr)
+bot = telebot.TeleBot(TOKEN) # TOKEN 
+adminid = int(adminidr)# TelegramID админа
 ####################
 def url_links(message):
 	links = open('links.txt','a+')
@@ -52,11 +52,17 @@ def dbupl(message):
 ##################
 markup = types.ReplyKeyboardMarkup(row_width=2)
 itembtn1 = types.KeyboardButton('✉️Чат✉️')
-itembtn2 = types.KeyboardButton('💩Админы💩')   # Это кнопки
-itembtn3 = types.KeyboardButton('😁Помощь😁')
-itembtn4 = types.KeyboardButton('💾Софт💾')
-itembtn5 = types.KeyboardButton('🔒Базы🔒')
-markup.add(itembtn4,itembtn5,itembtn1, itembtn2, itembtn3)
+itembtn2 = types.KeyboardButton('😁Помощь😁')
+itembtn3 = types.KeyboardButton('Other') # Это кнопки / Buttons
+itembtn4 = types.KeyboardButton('➡➡➡')
+markup.add(itembtn1, itembtn2, itembtn3, itembtn4)
+
+markup2 = types.ReplyKeyboardMarkup(row_width=2)
+itembtn1 = types.KeyboardButton('💾Софт💾')
+itembtn2 = types.KeyboardButton('🔒Базы🔒')
+itembtn3 = types.KeyboardButton('💩Админы💩') # Это кнопки / Buttons
+itembtn4 = types.KeyboardButton('⬅⬅⬅')
+markup2.add(itembtn1, itembtn2, itembtn3, itembtn4)
 
 admmarkup = types.ReplyKeyboardMarkup(row_width=2)
 itembtn1 = types.KeyboardButton('/addlink')
@@ -78,7 +84,7 @@ def send_welcome(message):
 /soft - 💾список полезных программ и скриптов💾
 /dblist - 🔒список баз данных🔒
 /admin - 👦наш(и) - админ(ы)👦
-/buttons - 🗂Перезагрузка кнопок🗂
+/button - 🔃;0Перезагрузка кнопок🔃
 /stat - 📊Статистика📊
 /github - 🔎страница бота на GitHub🔍
 ''')
@@ -104,6 +110,12 @@ def send_welcome(message):
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
 	elif message.text == '/github':
 		bot.send_message(message.chat.id, '🔎GitHub РЕпозиторий бота: https://github.com/d2nekomet/WBot-TelegramBot 🔍')
+		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+	elif message.text == '➡➡➡':
+		bot.send_message(message.chat.id, 'Страница №2', reply_markup=markup2)
+		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+	elif message.text == '⬅⬅⬅':
+		bot.send_message(message.chat.id, 'Страница №1', reply_markup=markup)
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
 
 #       СЛУЖЕБНЫЕ КОМАНДЫ   СЛУЖЕБНЫЕ КОМАНДЫ   СЛУЖЕБНЫЕ КОМАНДЫ   СЛУЖЕБНЫЕ КОМАНДЫ  
