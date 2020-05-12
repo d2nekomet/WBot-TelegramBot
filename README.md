@@ -7,7 +7,7 @@ Russian version (Русская версия):
 2. cd WBot-TelegramBot
 3. sudo python3 install.py
 
-Никакой токен в бота не вводить! Все делается с через install.py!!!
+Никакой токен в бота не вводить! Все делается через install.py!!!
 
 Автор:    
 Telegram - t.me/os_people    
