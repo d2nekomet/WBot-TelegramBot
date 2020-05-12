@@ -153,7 +153,7 @@ def send_welcome(message):
 			pass
 	elif message.text == '🔎GitHub🔍' or  message.text == '/github':
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n')
-		bot.send_message(message.chat.id, '🔎Страница бота на GitHub - https://github.com/d2nekomet/WBot-TelegramBot🔍')
+		bot.send_message(message.chat.id, '🔎Страница бота на GitHub - https://github.com/d2nekomet/WBot-TelegramBot  🔍')
 	elif message.text == '/payments' or message.text == '💳Реквизиты💳':
 		bot.send_message(message.chat.id, '''Привет. Всем надо зарабатывать и кушать. Админ этого бота и канала @www_project не исключение. Однако я не создаю приватные группы и т.д. Почему? Я считаю, что информация должна быть бесплатной!
 Поэтому прошу помочь проекту рублем и украсить вечер админа порцией кексиков, ну или стену канала еще одним годным постом сделанным благодаря Вашим поддержкам!
