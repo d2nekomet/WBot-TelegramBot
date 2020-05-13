@@ -1,7 +1,6 @@
 import os
 import time
-
-
+import configparser
 
 def startinstall():
 	print('''
@@ -20,58 +19,65 @@ Author: https://t.me/os_people\n''')
 4) Установка бота в Termux.
 5) Инструкция по установке.
 Other:
-a) Ввести токен бота
-b) Ввести TelegramID админа''')
+a) Установка BotToken и TelegramID''')
 	setinstall = input('Выберите: ')
 	if setinstall == '1':
-		print('Полная установка бота.\n')
+		print('\nПолная установка бота.\n')
 		os.system('mkdir Logs')
-		print('Папка с логами создана.\n')
+		print('\nПапка с логами создана.\n')
 		os.system('chmod +x bot.py')
-		print('Все зависимости установлены.\n')
-		os.system('apt install screen python3-pip -y')
-		print('Screen и python3-pip установлен.\n')
+		os.system('mkdir Other')
+		print('\nПапка Other создана\n')
+		os.system('touch Other/base.txt Other/links.txt Other/idlist.txt Other/friends.txt')
+		os.system('mkdir Config')
+		print('\nПапка Config создана\n')
+		print('\nВсе зависимости установлены.\n')
+		os.system('sudo apt install screen python3-pip -y')
+		print('\nScreen и python3-pip установлен.\n')
 		os.system('pip3 install pyTelegramBotAPI')
-		print('Модуль pyTelegramBotAPI установлен\n.')
+		print('\nМодуль pyTelegramBotAPI установлен\n.')
+		os.system('pip3 install configparser')
+		print('\nConfigParser установлен!\n')
 		os.system('mkdir Config')
 		print('\nПапка с конфигами создана!\n')
-		os.system('touch friends.txt')
-		print('\nФайл с друзьями создан!\n')
 		tokenfilev = input('Введите свой токен бота: ')
-		tokenfile = open('Config/token.txt', 'w+')
-		tokenfile.write(str(tokenfilev))
-		tokenfile.close()
-		print('\nТокен установлен!')
+		print('\nТокен установлен!\n')
 		adminfile = input('Введите свой TelegramID: ')
-		adminfilef = open('Config/adminid.txt', 'w+')
-		adminfilef.write(str(adminfile))
-		adminfilef.close()
-		print('\nTelegramID установлен!\n')
+		os.system('touch Config/config.ini')
+		configfile = open('Config/config.ini', 'w+')
+		configfile.write('''[Bot]
+token=''' +str(tokenfilev)+ '''
+adminid='''+str(adminfile))
+		print('\nКонфиг файл создан и настроен!\n')
 		os.system('screen python3 bot.py')
-		print('Бот успешно установлен!\nУдачного использования!')
+		print('\nБот успешно установлен!\nУдачного использования!')
 	elif setinstall == '2':
-		print('Базовая установка бота.\n')
+		print('\nБазовая установка бота.\n')
 		os.system('mkdir Logs')
-		print('Папка с логами создана.\n')
+		print('\nПапка с логами создана.\n')
+		os.system('mkdir Other')
+		print('\nПапка Other создана\n')
+		os.system('touch Other/base.txt Other/links.txt Other/idlist.txt Other/friends.txt')
+		os.system('mkdir Config')
+		print('\nПапка Config создана\n')
 		os.system('chmod +x bot.py')
-		print('Все зависимости установлены.\n')
-		os.system('apt install python3-pip')
+		print('\nВсе зависимости установлены.\n')
+		os.system('sudo apt install python3-pip')
 		print('python3-pip установлен.\n')
 		os.system('pip3 install pyTelegramBotAPI')
-		print('Модуль pyTelegramBotAPI установлен.\n')
-		os.system('touch friends.txt')
-		print('\nФайл с друзьями создан!\n')
+		print('\nМодуль pyTelegramBotAPI установлен.\n')
+		os.system('pip3 install configparser')
+		print('\nConfigParser установлен!\n')
 		tokenfilev = input('Введите свой токен бота: ')
-		tokenfile = open('Config/token.txt', 'w+')
-		tokenfile.write(str(tokenfilev))
-		tokenfile.close()
-		print('\nТокен установлен!')
+		print('\nТокен установлен!\n')
 		adminfile = input('Введите свой TelegramID: ')
-		adminfilef = open('Config/adminid.txt', 'w+')
-		adminfilef.write(str(adminfile))
-		adminfilef.close()
-		print('\nTelegramID установлен!\n')
-		print('Чтобы запустить бота напишите python3 bot.py')
+		os.system('touch Config/config.ini')
+		configfile = open('Config/config.ini', 'w+')
+		configfile.write('''[Bot]
+token=''' +str(tokenfilev)+ '''
+adminid='''+str(adminfile))
+		print('\nКонфиг файл создан и настроен!\n')
+		print('\nЧтобы запустить бота напишите python3 bot.py')
 	elif setinstall == '3':
 		print('Запуск бота....')
 		time.sleep(2)
@@ -108,8 +114,8 @@ b) Ввести TelegramID админа''')
 
 Для Ubuntu/Debian:
 1) sudo apt update && sudo apt upgrade
-2) sudo apt install python git nano -y
-3) sudo apt install python3-pip -y
+2) sudo sudo apt install python git nano -y
+3) sudo sudo apt install python3-pip -y
 4) pip3 instal pyTelegramBotAPI
 5) chmod +x bot.py
 6) mkdir Logs
@@ -127,17 +133,14 @@ b) Ввести TelegramID админа''')
 
 Вот и все!''')
 	elif setinstall == 'a':
-		os.system('mkdir Config')
 		tokenfilev = input('Введите свой токен бота: ')
-		tokenfile = open('Config/token.txt', 'w+')
-		tokenfile.write(str(tokenfilev))
-		tokenfile.close()
 		print('\nТокен установлен!\n')
-	elif setinstall == 'b':
-		os.system('mkdir Config')
-		adminfilev = input('Введите свой TelegramID: ')
-		adminfile = open('Config/adminid.txt', 'w+')
-		adminfile.write(str(adminfilev))
-		adminfile.close()
-		print('\nTelegramID установлен!\n')
+		adminfile = input('Введите свой TelegramID: ')
+		os.system('touch Config/config.ini')
+		configfile = open('Config/config.ini', 'w+')
+		configfile.write('''[Bot]
+token=''' +str(tokenfilev)+ '''
+adminid='''+str(adminfile))
+		configfile.close()
+		print('Конфиг файл создан и настроен!')
 startinstall()
