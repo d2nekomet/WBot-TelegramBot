@@ -11,7 +11,7 @@ import threading
 import configparser
 logs = open('Logs/log' + time.strftime('%B%d%Y', time.localtime()) + '.txt', 'w+')
 logs.close()
-logs = open('Logs/log' + time.strftime('%B%d%Y', time.localtime()) + '.txt', 'w+')
+logs = open('Logs/log' + time.strftime('%B%d%Y', time.localtime()) + '.txt', 'a+')
 idslist = open('Other/idlist.txt', 'w+')
 
 conf = configparser.RawConfigParser()
@@ -64,7 +64,7 @@ def dbupl(message):
 def restartlog():
 	logs = open('Logs/log' + time.strftime('%B%d%Y', time.localtime()) + '.txt', 'w+')
 	logs.close()
-	logs = open('Logs/log' + time.strftime('%B%d%Y', time.localtime()) + '.txt', 'w+')
+	logs = open('Logs/log' + time.strftime('%B%d%Y', time.localtime()) + '.txt', 'a+')
 
 def logres():
 	while True:
@@ -73,6 +73,21 @@ def logres():
 			restartlog()
 			time.sleep(1)
 	pass
+
+def serachdb(message):
+	if len(message.text) < 4:
+		bot.send_message(message.chat.id,'Попытка выгрузки базы? Пошел назуй.')
+		bot.send_message(adminid,'Тут этот хуй базу попытался выгрузить: \n' + 'Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n')
+	else:
+		dbpass = open('db.txt').readlines()
+		for i in iter(dbpass):
+			if message.text in i:
+				listdb = '\n' + str(i) + '\n'
+				bot.send_message(message.chat.id, '🔐Логин и пароль: \n' + listdb + '🔐')
+				time.sleep(5)
+		pass
+
+
 
 t = threading.Thread(target=logres, name='Thread1',)
 t.start()
@@ -91,14 +106,15 @@ itembtn1 = types.KeyboardButton('📊Статистика📊')
 itembtn2 = types.KeyboardButton('🔎GitHub🔍')
 itembtn3 = types.KeyboardButton('👨‍👩‍👧‍👦Друзья👨‍👩‍👧‍👦')
 itembtn4 = types.KeyboardButton('💳Реквизиты💳') # Это кнопки / Buttons
-itembtn5 = types.KeyboardButton('3>')
-itembtn6 = types.KeyboardButton('<1')
+itembtn5 = types.KeyboardButton('<1')
+itembtn6 = types.KeyboardButton('3>')
 markup2.add(itembtn1, itembtn2, itembtn3, itembtn4, itembtn5, itembtn6)
 
 markup3 = types.ReplyKeyboardMarkup(row_width=2)
 itembtn1 = types.KeyboardButton('💩Админы💩')
-itembtn2 = types.KeyboardButton('<2')
-markup3.add(itembtn1, itembtn2)
+itembtn2 = types.KeyboardButton('🔐MCPE DB🔐')
+itembtn3 = types.KeyboardButton('<2')
+markup3.add(itembtn1, itembtn2, itembtn3)
 
 admmarkup = types.ReplyKeyboardMarkup(row_width=2)
 itembtn1 = types.KeyboardButton('/addlink')
@@ -126,6 +142,7 @@ def send_welcome(message):
 /github - 🔎страница бота на GitHub🔍
 /payments - 💳поддержка проекта монетой💳
 /friends - 👨‍👩‍👧‍👦друзья проекта👨‍👩‍👧‍👦
+/db - 🔐поиск пароля по нику MCPE🔐
 ''')
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
 	elif message.text == '✉️Чат✉️' or message.text == '/chat':
@@ -212,6 +229,13 @@ Ethereum: 0xdb05ab0547e28f62ad0c7d856c0b9b4ed6d28789
 	elif message.text == 'Exit' and message.chat.id == adminid:
 		bot.send_message(adminid, 'Вы вышли из админ панели!', reply_markup=markup)
 
+
+	elif message.text == '/db' or message.text == '🔐MCPE DB🔐':
+		dbs = bot.send_message(message.chat.id, 'Введите никнейм:')
+		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+		bot.send_message(message.chat.id, 'На данный момент из-за багов которые мне лень фиксить задержка между отправкой ботом пароля и логина будет состовлять 5 секунд!\nЕсли бот сразу после ввода ника и его отправки не дал вам пароля - значит, что пароля нет!')
+		bot.register_next_step_handler(dbs, serachdb)
+
 	msg = message.text.split()
 	if msg[0] == '/send':
 		myList = msg[2:]
@@ -219,6 +243,7 @@ Ethereum: 0xdb05ab0547e28f62ad0c7d856c0b9b4ed6d28789
 		bot.send_message(chat_id=msg[1],text= '📩Вам сообщения от админа: ' + str(myString))
 		bot.send_message(adminid, '✉️Соощение пользователю ' + msg[1] + ' отправлено успешно!\n✉️Текст сообщения: ' + str(myString) + ' ✉️')
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+	msg = message.text.split()
 
 logging.basicConfig(filename="sample.log", level=logging.DEBUG)
 logging.debug("\nDebug " + time.ctime() + '\n')
