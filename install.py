@@ -19,7 +19,8 @@ Author: https://t.me/os_people\n''')
 4) Установка бота в Termux.
 5) Инструкция по установке.
 Other:
-a) Установка BotToken и TelegramID''')
+a) Установка BotToken и TelegramID
+b) Загрузка баззы с интернета по ПРЯМОЙ ССЫЛКЕ''')
 	setinstall = input('Выберите: ')
 	if setinstall == '1':
 		print('\nПолная установка бота.\n')
@@ -143,4 +144,9 @@ token=''' +str(tokenfilev)+ '''
 adminid='''+str(adminfile))
 		configfile.close()
 		print('Конфиг файл создан и настроен!')
+	elif setinstall == 'b':
+		baselink = input('Введите ПРЯМУЮ ссылку на базу: ')
+		print('\nСкачивание началось...\n\n')
+		os.system('wget ' + baselink)
+		print('\n\nСкачивание завершено! Не забудьте переименновать базу в db.txt !\n\n')
 startinstall()
