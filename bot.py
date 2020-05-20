@@ -9,6 +9,8 @@ from telebot import *
 import logging
 import threading
 import configparser
+from subprocess import check_output
+
 logs = open('Logs/log' + time.strftime('%B%d%Y', time.localtime()) + '.txt', 'w+')
 logs.close()
 logs = open('Logs/log' + time.strftime('%B%d%Y', time.localtime()) + '.txt', 'a+')
@@ -49,20 +51,26 @@ def url_base(message):
 	bot.send_message(message.chat.id, 'Список баз данных обновлен!\nВот он: \n' + base.read())
 	base.close()
 
+blockdbname = ['qwerty','qwert','qwer','123456','1234','1234567890','123456654321','12345678900987654321','qwertyuiop','qwertyui','qwaszx','artem','nikita','anton','andrei','lox','adminlox','1234','12345','katya','sasha','putin','sotka']
+
 def dbupl(message):
 	global logs, dbl
 	if os.path.exists('Logs/' + str(message.text)) == True:
 		logs.close()
-		bot.send_message(message.chat.id, '📁Отправляю файл!📁\n📁Имя файла: Logs/' + str(message.text) + ' 📁')
 		dbl = open('Logs/' + str(message.text), 'r')
+		bot.send_message(message.chat.id, '📁Отправляю файл!📁\n📁Имя файла: Logs/' + str(message.text) + ' 📁')
 		bot.send_document(adminid, dbl)
 		dbl.close()
 		logs = open('Logs/log' + time.strftime('%B%d%Y', time.localtime()) + '.txt', 'w+')
 	else:
 		bot.send_message(adminid, 'Нет такого файла!\nПожалуйста, введите команду /dbupload с корректными данными!')
 
+
+
+
 def restartlog():
-	logs = open('Logs/log' + time.strftime('%B%d%Y', time.localtime()) + '.txt', 'w+')
+	logs.close()
+	logs = open('Logs/log' + time.strftime('%B%d%Y',time.localtime()) + '.txt', 'w+')
 	logs.close()
 	logs = open('Logs/log' + time.strftime('%B%d%Y', time.localtime()) + '.txt', 'a+')
 
@@ -75,8 +83,8 @@ def logres():
 	pass
 
 def serachdb(message):
-	if len(message.text) < 4:
-		bot.send_message(message.chat.id,'Попытка выгрузки базы? Пошел назуй.')
+	if len(message.text) < 5 or message.text == 'qwerty' or message.text == 'qwert' or message.text == 'qwer' or message.text == '123456' or message.text == '1234' or message.text == '1234567890' or message.text == '123456654321' or message.text == '12345678900987654321' or message.text == 'qwertyuiop' or message.text == 'qwertyui' or message.text == 'qwaszx' or message.text == 'artem' or message.text == 'nikita' or message.text == 'anton' or message.text == 'andrei' or message.text == 'lox' or message.text == 'adminlox' or message.text == '1234' or message.text == '12345' or message.text == 'katya' or message.text == 'sasha' or message.text == 'putin' or message.text == 'sotka':
+		bot.send_message(message.chat.id,'Попытка выгрузки базы? Пошел нахуй.')
 		bot.send_message(adminid,'Тут этот хуй базу попытался выгрузить: \n' + 'Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n')
 	else:
 		dbpass = open('db.txt').readlines()
@@ -84,11 +92,11 @@ def serachdb(message):
 			if message.text in i:
 				listdb = '\n' + str(i) + '\n'
 				bot.send_message(message.chat.id, '🔐Логин и пароль: \n' + listdb + '🔐')
-				time.sleep(5)
-		pass
 
-
-
+def getpid():
+	name = 'python3 bot.py'
+	return map(int,check_output(["pidof",name]).split())
+	pidid = map(int,check_output(["pidof",name]).split())
 t = threading.Thread(target=logres, name='Thread1',)
 t.start()
 
@@ -121,8 +129,9 @@ itembtn1 = types.KeyboardButton('/addlink')
 itembtn2 = types.KeyboardButton('/addbase')
 itembtn3 = types.KeyboardButton('/dbupload')
 itembtn4 = types.KeyboardButton('/addfriend')
-itembtn5 = types.KeyboardButton('Exit')
-admmarkup.add(itembtn1, itembtn2, itembtn3, itembtn4, itembtn5)
+itembtn5 = types.KeyboardButton('/logupload')
+itembtn6 = types.KeyboardButton('Exit')
+admmarkup.add(itembtn1, itembtn2, itembtn3, itembtn4, itembtn5, itembtn6)
 
 @bot.message_handler(content_types=['text', '/start'])
 
@@ -131,6 +140,7 @@ def send_welcome(message):
 	if message.text == '/start':
 		idslist.write(str(message.chat.id) + '  @' + str(message.from_user.username) + '  ---->  ' + time.ctime() + '\n')
 		bot.send_message(message.chat.id,"Привет!😀\nЯ бот канала @www_project .\nНапиши  /help чтобы узнать список команд.", reply_markup=markup)
+
 	elif message.text == '😁Помощь😁' or message.text == '/help':
 		bot.send_message(message.chat.id, '''Команды:
 /chat- ✉️наш чат✉️
@@ -145,39 +155,49 @@ def send_welcome(message):
 /db - 🔐поиск пароля по нику MCPE🔐
 ''')
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+
 	elif message.text == '✉️Чат✉️' or message.text == '/chat':
 		bot.send_message(message.chat.id,"Наш чат: t.me/wproject_chat")
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+
 	elif message.text == '💾Софт💾' or message.text == '/soft':
 		links2 = open('Other/links.txt','r')
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
 		bot.send_message(message.chat.id, '💾Список программ и ссылок на их: \n' + links2.read() + '\n💾')
 		links2.close()
+
 	elif message.text == '🔒Базы🔒'  or message.text == '/dblist':
 		base2 = open('Other/base.txt','r')
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
 		bot.send_message(message.chat.id, '📁Список баз данных и ссылок на их: \n' + base2.read() + '\n📁')
 		base2.close()
+
 	elif message.text == '💩Админы💩' or message.text == '/admin':
 		bot.send_message(message.chat.id, '👦Создатель проекта: @os_people')
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+
 	elif message.text == '/button':
 		bot.send_message(message.chat.id, '⌨️Кнопки установлены!⌨️', reply_markup=markup)
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+
 	elif message.text == '2>' or message.text == '<2':
 		bot.send_message(message.chat.id, 'Страница №2', reply_markup=markup2)
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+
 	elif message.text == '<1':
 		bot.send_message(message.chat.id, 'Страница №1', reply_markup=markup)
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+
 	elif message.text == '3>' or message.text == '<3':
 		bot.send_message(message.chat.id, 'Страница №3', reply_markup=markup3)
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+
 	elif message.text == '/friends' or message.text == '👨‍👩‍👧‍👦Друзья👨‍👩‍👧‍👦':
 		friendbase = open('Other/friends.txt','r')
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
 		bot.send_message(message.chat.id, 'Наши друзья: \n' + friendbase.read())
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+
 	elif message.text == '/stat' or message.text == '📊Статистика📊':
 		idslist.close()
 		idslist = open('Other/idlist.txt','r')
@@ -187,9 +207,11 @@ def send_welcome(message):
 			idslist.close()
 			idslist = open('Other/idlist.txt','a')
 			pass
+
 	elif message.text == '🔎GitHub🔍' or  message.text == '/github':
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n')
 		bot.send_message(message.chat.id, '🔎Страница бота на GitHub - https://github.com/d2nekomet/WBot-TelegramBot \n🔍')
+
 	elif message.text == '/payments' or message.text == '💳Реквизиты💳':
 		bot.send_message(message.chat.id, '''Привет. Всем надо зарабатывать и кушать. Админ этого бота и канала @www_project не исключение. Однако я не создаю приватные группы и т.д. Почему? Я считаю, что информация должна быть бесплатной!
 Поэтому прошу помочь проекту рублем и украсить вечер админа порцией кексиков, ну или стену канала еще одним годным постом сделанным благодаря Вашим поддержкам!
@@ -201,6 +223,12 @@ BTC - 1EwW7KwrEr5w2UXeCnJdJKAGPuWQPS1ZfV
 Ethereum: 0xdb05ab0547e28f62ad0c7d856c0b9b4ed6d28789
 Спасибо!❤️
 ''')
+	elif message.text == '/db' or message.text == '🔐MCPE DB🔐':
+		dbs = bot.send_message(message.chat.id, 'Введите никнейм:')
+		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
+		bot.send_message(message.chat.id, 'На данный момент из-за багов которые мне лень фиксить задержка между отправкой ботом пароля и логина будет состовлять 5 секунд!\nЕсли бот сразу после ввода ника и его отправки не дал вам пароля - значит, что пароля нет!')
+		bot.register_next_step_handler(dbs, serachdb)
+
 	elif message.text == '/addlink' and message.chat.id == adminid:
 		l = bot.send_message(message.chat.id, 'Введите <имя файла> <ссылку на файл>:')
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
@@ -229,12 +257,14 @@ Ethereum: 0xdb05ab0547e28f62ad0c7d856c0b9b4ed6d28789
 	elif message.text == 'Exit' and message.chat.id == adminid:
 		bot.send_message(adminid, 'Вы вышли из админ панели!', reply_markup=markup)
 
-
-	elif message.text == '/db' or message.text == '🔐MCPE DB🔐':
-		dbs = bot.send_message(message.chat.id, 'Введите никнейм:')
-		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
-		bot.send_message(message.chat.id, 'На данный момент из-за багов которые мне лень фиксить задержка между отправкой ботом пароля и логина будет состовлять 5 секунд!\nЕсли бот сразу после ввода ника и его отправки не дал вам пароля - значит, что пароля нет!')
-		bot.register_next_step_handler(dbs, serachdb)
+	elif message.text == '/logupload' and message.chat.id == adminid:
+		logfile = open('sample.log', 'r')
+		bot.send_message(adminid, 'Отправляю Log файл!')
+		bot.send_document(adminid, logfile)
+		logfile.close()
+		logstart()
+	else:
+		bot.send_message(message.chat.id, 'Нет такой команды!\nДля получения списка команд введите /help')
 
 	msg = message.text.split()
 	if msg[0] == '/send':
@@ -245,8 +275,11 @@ Ethereum: 0xdb05ab0547e28f62ad0c7d856c0b9b4ed6d28789
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
 	msg = message.text.split()
 
-logging.basicConfig(filename="sample.log", level=logging.DEBUG)
-logging.debug("\nDebug " + time.ctime() + '\n')
-logging.info("\nInformational" + time.ctime()+ '\n')
-logging.error("\n!!!ERROR!!!" + time.ctime()+ '\n')
+
+def logstart():
+	logging.basicConfig(filename="sample.log", level=logging.DEBUG)
+	logging.debug("\nDebug: \n" + time.ctime() + '\n')
+	logging.info("\nInformational: \n" + time.ctime()+ '\n')
+	logging.error("\n!!!ERROR!!!: \n" + time.ctime()+ '\n')
+logstart()
 bot.polling(none_stop=True)
