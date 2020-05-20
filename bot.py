@@ -226,7 +226,6 @@ Ethereum: 0xdb05ab0547e28f62ad0c7d856c0b9b4ed6d28789
 	elif message.text == '/db' or message.text == '🔐MCPE DB🔐':
 		dbs = bot.send_message(message.chat.id, 'Введите никнейм:')
 		logs.write('Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n') 
-		bot.send_message(message.chat.id, 'На данный момент из-за багов которые мне лень фиксить задержка между отправкой ботом пароля и логина будет состовлять 5 секунд!\nЕсли бот сразу после ввода ника и его отправки не дал вам пароля - значит, что пароля нет!')
 		bot.register_next_step_handler(dbs, serachdb)
 
 	elif message.text == '/addlink' and message.chat.id == adminid:
