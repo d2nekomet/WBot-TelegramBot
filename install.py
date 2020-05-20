@@ -91,10 +91,21 @@ adminid='''+str(adminfile))
 		os.system('apt update && apt upgrade')
 		os.system('pkg install nano python -y')
 		os.system('pip3 install pyTelegramBotAPI')
+		print('\nМодуль pyTelegramBotAPI установлен.\n')
+		os.system('pip3 install configparser')
+		print('\nConfigParser установлен!\n')
 		os.system('cd WBot-TelegramBot')
 		os.system('chmod +x bot.py')
 		os.system('mkdir Logs')
-		print('\n \n Усстановка завершена! Для запуска напишите python3 bot.py !\n')
+		os.system('mkdir Other')
+		os.system('mkdir Config')
+		os.system('touch Config/config.ini')
+		configfile = open('Config/config.ini', 'w+')
+		configfile.write('''[Bot]
+token=''' +str(tokenfilev)+ '''
+adminid='''+str(adminfile))
+		print('\nКонфиг файл создан и настроен!\n')
+		print('\n \n Установка завершена! Для запуска напишите python3 bot.py !\n')
 
 
 
