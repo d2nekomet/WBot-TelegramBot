@@ -22,6 +22,7 @@ print('Ваш токен: '+conf.get("Bot", "token"))
 print('Ваш id: '+conf.get("Bot", "adminid"))
 TOKEN = conf.get("Bot", "token")
 adminid = int(conf.get("Bot", "adminid"))
+chbot = str(conf.get("Bot", "chbot"))
 idslist = open('Other/idlist.txt', 'w+')
 
 bot = telebot.TeleBot(TOKEN)
@@ -67,6 +68,9 @@ def dbupl(message):
 
 
 
+def sendMessageToChannel(message):
+	bot.send_message(chbot,message.text)
+	bot.send_message(adminid,'Сообщение на канал отправлено!\nВот его текст: ' + message.text)
 
 def restartlog():
 	logs.close()
@@ -93,10 +97,6 @@ def serachdb(message):
 				listdb = '\n' + str(i) + '\n'
 				bot.send_message(message.chat.id, '🔐Логин и пароль: \n' + listdb + '🔐')
 
-def getpid():
-	name = 'python3 bot.py'
-	return map(int,check_output(["pidof",name]).split())
-	pidid = map(int,check_output(["pidof",name]).split())
 t = threading.Thread(target=logres, name='Thread1',)
 t.start()
 
@@ -130,8 +130,9 @@ itembtn2 = types.KeyboardButton('/addbase')
 itembtn3 = types.KeyboardButton('/dbupload')
 itembtn4 = types.KeyboardButton('/addfriend')
 itembtn5 = types.KeyboardButton('/logupload')
-itembtn6 = types.KeyboardButton('Exit')
-admmarkup.add(itembtn1, itembtn2, itembtn3, itembtn4, itembtn5, itembtn6)
+itembtn6 = types.KeyboardButton('/sendtochannel')
+itembtn7 = types.KeyboardButton('Exit')
+admmarkup.add(itembtn1, itembtn2, itembtn3, itembtn4, itembtn5, itembtn6,itembtn7)
 
 @bot.message_handler(content_types=['text', '/start'])
 
@@ -262,6 +263,9 @@ Ethereum: 0xdb05ab0547e28f62ad0c7d856c0b9b4ed6d28789
 		bot.send_document(adminid, logfile)
 		logfile.close()
 		logstart()
+	elif message.text == '/sendtochannel':
+		messageToChannel = bot.send_message(adminid, 'Введите сообщение в которое вы хотите отправить на канал: ')
+		bot.register_next_step_handler(messageToChannel, sendMessageToChannel)
 	else:
 		bot.send_message(message.chat.id, 'Нет такой команды!\nДля получения списка команд введите /help')
 
