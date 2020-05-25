@@ -1,163 +1,164 @@
 import os
 import time
-import configparser
+import logging
+
 
 def startinstall():
+	os.system('clear')
 	print('''
 ──────╔═══╗╔═══╗╔═══╗──╔╗╔═══╗╔═══╗╔════╗
 ──────║╔═╗║║╔═╗║║╔═╗║──║║║╔══╝║╔═╗║║╔╗╔╗║
 ╔╗╔╗╔╗║╚═╝║║╚═╝║║║─║║──║║║╚══╗║║─╚╝╚╝║║╚╝
 ║╚╝╚╝║║╔══╝║╔╗╔╝║║─║║╔╗║║║╔══╝║║─╔╗──║║──
 ╚╗╔╗╔╝║║───║║║╚╗║╚═╝║║╚╝║║╚══╗║╚═╝║──║║──
-─╚╝╚╝─╚╝───╚╝╚═╝╚═══╝╚══╝╚═══╝╚═══╝──╚╝── 
+─╚╝╚╝─╚╝───╚╝╚═╝╚═══╝╚══╝╚═══╝╚═══╝──╚╝──
 Project: https://t.me/www_project
 Author: https://t.me/os_people\n''')
-	print('''Выберите нужную цифру:
-1) Полная автоматическая установка (Для Debian и Ubuntu based дистрибутивов)
-2) Базовая установка (без запуска бота)
-3) Запуск бота в фоне.
-4) Установка бота в Termux.
-5) Инструкция по установке.
+	time.sleep(1)
+	print('''Выберите нужный вариант:
+1) Full Install - устанавливает все либы и зависимости + запуск бота
+2) Standart install - устанавливает все либы и зависимости
+3) Termux install - установка для Termux
 Other:
-a) Установка BotToken и TelegramID
-b) Загрузка баззы с интернета по ПРЯМОЙ ССЫЛКЕ''')
-	setinstall = input('Выберите: ')
-	if setinstall == '1':
-		print('\nПолная установка бота.\n')
-		os.system('mkdir Logs')
-		print('\nПапка с логами создана.\n')
-		os.system('chmod +x bot.py')
-		os.system('mkdir Other')
-		print('\nПапка Other создана\n')
-		os.system('touch Other/base.txt Other/links.txt Other/idlist.txt Other/friends.txt')
-		os.system('mkdir Config')
-		print('\nПапка Config создана\n')
-		print('\nВсе зависимости установлены.\n')
-		os.system('sudo apt install screen python3-pip -y')
-		print('\nScreen и python3-pip установлен.\n')
-		os.system('pip3 install pyTelegramBotAPI')
-		print('\nМодуль pyTelegramBotAPI установлен\n.')
-		os.system('pip3 install configparser')
-		print('\nConfigParser установлен!\n')
-		os.system('mkdir Config')
-		print('\nПапка с конфигами создана!\n')
-		tokenfilev = input('Введите свой токен бота: ')
-		print('\nТокен установлен!\n')
-		adminfile = input('Введите свой TelegramID: ')
+a) Full config - Установка BotToken, AdminTelegramID и имя канала (Пример - @www_project)
+b) Token Config - установка BotToken
+c) Id Config - установка TelegramID
+d) Channel Config - установка имени канала
+f) MCPEDataBase - скачивание (по прямой сссылке) базы данных
+Update:
+u1) Module Update - обновление модулей''')
+	select = input('Выберите нужный вариант: ')
+	if select == '1':
+		os.system('clear')
+		print('\nУстановка началась! \n')
+		time.sleep(0.5)
+		os.system('mkdir Config Logs Other')
+		os.system('sudo apt install python3-pip screen -y')
+		os.system('pip3 install pyTelegramBotAPI configparser')
 		os.system('touch Config/config.ini')
-		configfile = open('Config/config.ini', 'w+')
-		configfile.write('''[Bot]
-token=''' +str(tokenfilev)+ '''
-adminid='''+str(adminfile))
-		print('\nКонфиг файл создан и настроен!\n')
+		configFile = open('Config/config.ini', 'w+')
+		botToken = input('Введите токен бота: ')
+		adminId = input('Введите id админа бота: ')
+		botChannel = input('Введите имя канала(пример - @www_project): ')
+		configFile.write('''[Bot]
+token=''' +str(BotToken)+ '''
+adminid='''+str(adminId)+ '''
+chbot=''' + str(botChannel))
+		configFile.close()
+		os.system('clear')
+		print('Запуск бота через 3 секунды...')
+		print('\n3')
+		time.sleep(1)
+		print('\n2')
+		time.sleep(1)
+		print('\n1')
+		print('\nЗапуск...')
+		time.sleep(1)
 		os.system('screen python3 bot.py')
-		print('\nБот успешно установлен!\nУдачного использования!')
-	elif setinstall == '2':
-		print('\nБазовая установка бота.\n')
-		os.system('mkdir Logs')
-		print('\nПапка с логами создана.\n')
-		os.system('mkdir Other')
-		print('\nПапка Other создана\n')
-		os.system('touch Other/base.txt Other/links.txt Other/idlist.txt Other/friends.txt')
-		os.system('mkdir Config')
-		print('\nПапка Config создана\n')
-		os.system('chmod +x bot.py')
-		print('\nВсе зависимости установлены.\n')
-		os.system('sudo apt install python3-pip')
-		print('python3-pip установлен.\n')
-		os.system('pip3 install pyTelegramBotAPI')
-		print('\nМодуль pyTelegramBotAPI установлен.\n')
-		os.system('pip3 install configparser')
-		print('\nConfigParser установлен!\n')
-		tokenfilev = input('Введите свой токен бота: ')
-		print('\nТокен установлен!\n')
-		adminfile = input('Введите свой TelegramID: ')
+
+	elif select == '2':
+		os.system('clear')
+		print('\nУстановка началась! \n')
+		time.sleep(0.5)
+		os.system('mkdir Config Logs Other')
+		os.system('sudo apt install python3-pip screen -y')
+		os.system('pip3 install pyTelegramBotAPI configparser')
 		os.system('touch Config/config.ini')
-		configfile = open('Config/config.ini', 'w+')
-		configfile.write('''[Bot]
-token=''' +str(tokenfilev)+ '''
-adminid='''+str(adminfile))
-		print('\nКонфиг файл создан и настроен!\n')
-		print('\nЧтобы запустить бота напишите python3 bot.py')
-	elif setinstall == '3':
-		print('Запуск бота....')
-		time.sleep(2)
-		os.system('screen python3 bot.py')
-		print('\n!!!!!Если бот упал - надо создать папку Logs.\nЕсли все еще падает - сделайте полную установку выбрав пункт 1. !!!!!')
-	elif setinstall == '4':
-		print('Установка бота на Termux...')
-		time.sleep(2)
-		os.system('pkg update')
-		os.system('apt update && apt upgrade')
-		os.system('pkg install nano python -y')
-		os.system('pip3 install pyTelegramBotAPI')
-		print('\nМодуль pyTelegramBotAPI установлен.\n')
-		os.system('pip3 install configparser')
-		print('\nConfigParser установлен!\n')
-		os.system('cd WBot-TelegramBot')
-		os.system('chmod +x bot.py')
-		os.system('mkdir Logs')
-		os.system('mkdir Other')
-		os.system('mkdir Config')
+		configFile = open('Config/config.ini', 'w+')
+		botToken = input('Введите токен бота: ')
+		adminId = input('Введите id админа бота: ')
+		botChannel = input('Введите имя канала(пример - @www_project): ')
+		configFile.write('''[Bot]
+token=''' +str(BotToken)+ '''
+adminid='''+str(adminId)+ '''
+chbot=''' + str(botChannel))
+		configFile.close()
+		os.system('clear')
+		print('Бот установлен!')
+
+	elif select == '3':
+		os.system('clear')
+		print('Установка началась!')
+		os.system('mkdir Config Logs Other')
+		os.system('pkg install screen -y')
+		os.system('pip3 install pyTelegramBotAPI configparser')
 		os.system('touch Config/config.ini')
-		configfile = open('Config/config.ini', 'w+')
-		configfile.write('''[Bot]
-token=''' +str(tokenfilev)+ '''
-adminid='''+str(adminfile))
-		print('\nКонфиг файл создан и настроен!\n')
-		print('\n \n Установка завершена! Для запуска напишите python3 bot.py !\n')
+		configFile = open('Config/config.ini', 'w+')
+		botToken = input('Введите токен бота: ')
+		adminId = input('Введите id админа бота: ')
+		botChannel = input('Введите имя канала(пример - @www_project): ')
+		configFile.write('''[Bot]
+token=''' +str(BotToken)+ '''
+adminid='''+str(adminId)+ '''
+chbot=''' + str(botChannel))
+		configFile.close()
+		os.system('clear')
+		print('Бот установлен!')
 
+	elif select == 'a':
+		configFile = open('Config/config.ini', 'w+')
+		botToken = input('Введите токен бота: ')
+		adminId = input('Введите id админа бота: ')
+		botChannel = input('Введите имя канала(пример - @www_project): ')
+		configFile.write('''[Bot]
+token=''' +str(botToken)+ '''
+adminid='''+str(adminId)+ '''
+chbot=''' + str(botChannel))
+		configFile.close()
+		os.system('clear')
+		print('Сконфигурировал!')
 
+	elif select == 'b':
+		botTokenFile = open('Config/config.ini', 'r+')
+		botTokenLine = botTokenFile.readlines()
+		token = botTokenLine[2]
+		chbotLine = botTokenLine[3]
+		botTokenFile.close()
+		botTokenFile = open('Config/config.ini', 'w+')
+		botToken = input('Введите токен бота: ')
+		botTokenFile.write('''[Bot]
+token=''' +str(botToken)+'\n'+str(token)+ str(chbotLine))
+		print('''Вот конфиг: [Bot]
+token=''' +str(botToken)+'\n'+str(token)+ str(chbotLine))
+		botTokenFile.close()
 
-	elif setinstall == '5':
-		print('''Привет! Ты выбрал режим ручной установки бота WBot для телеграм.
-Открой второе окно терминала и делай все по инструкции! 
-Удачи)
+	elif select == 'c':
+		adminIdFile = open('Config/config.ini', 'r')
+		adminIdLine = adminIdFile.readlines()
+		token = adminIdLine[1]
+		chbot = adminIdLine[3]
+		adminIdFile.close()
+		adminIdFile = open('Config/config.ini', 'w+')
+		teleIDLine = input('Введи свой TelegramID: ')
+		adminIdFile.write('''[Bot]
+''' + token + 'adminid='+ teleIDLine + '\n' + chbot)
+		print('''[Bot]
+''' + token + 'adminid='+ teleIDLine + '\n' + chbot)
+		adminIdFile.close()
 
-Для Termux:
-1) pkg update
-2) apt update && apt upgrade
-3) pkg install python nano git -y
-4) pip3 install pyTelegramBotAPI
-5) cd WBot-TelegramBot
-6) chmod +x bot.py
-7) mkdir Logs
-8) python3 bot.py
+	elif select == 'd':
+		channelFile = open('Config/config.ini', 'r')
+		channelLine = channelFile.readlines()
+		token = channelLine[1]
+		adminid = channelLine[2]
+		channelFile.close()
+		channelFile = open('Config/config.ini', 'w+')
+		chIdLine = input('Введи свой канал (Пример: @www_project): ')
+		channelFile.write('''[Bot]
+''' + token + adminid + 'chbot=' + chIdLine)
+		print('''\n[Bot]
+''' + token + adminid + 'chbot=' + chIdLine)
+		channelFile.close()	
 
-Для Ubuntu/Debian:
-1) sudo apt update && sudo apt upgrade
-2) sudo sudo apt install python git nano -y
-3) sudo sudo apt install python3-pip -y
-4) pip3 instal pyTelegramBotAPI
-5) chmod +x bot.py
-6) mkdir Logs
-7) python3 bot.py
+	elif select == 'f':
+		dataBaseDownload = input('Введите прямую ссылку на базу: ')
+		os.system('wget ' + dataBaseDownload)
+		os.system('clear')
+		print('\n\nНе забудьте переименовать базу в db.txt!!!')
 
-Для ArchLinux
-1) sudo pacman -y
-2) sudo pacman -S python git nano
-3) sudo pacman -S python3-pip
-4) pip3 install pyTelegramBotAPI
-5) cd WBot-TelegramBot
-6) chmod +x bot.py
-7) mkdir Logs
-8) python3 bot.py
+	elif select == 'u1':
+		os.system('clear')
+		os.system('sudo apt install python3-pip screen -y')
+		os.system('pip3 install pyTelegramBotAPI configparser')
 
-Вот и все!''')
-	elif setinstall == 'a':
-		tokenfilev = input('Введите свой токен бота: ')
-		print('\nТокен установлен!\n')
-		adminfile = input('Введите свой TelegramID: ')
-		os.system('touch Config/config.ini')
-		configfile = open('Config/config.ini', 'w+')
-		configfile.write('''[Bot]
-token=''' +str(tokenfilev)+ '''
-adminid='''+str(adminfile))
-		configfile.close()
-		print('Конфиг файл создан и настроен!')
-	elif setinstall == 'b':
-		baselink = input('Введите ПРЯМУЮ ссылку на базу: ')
-		print('\nСкачивание началось...\n\n')
-		os.system('wget ' + baselink)
-		print('\n\nСкачивание завершено! Не забудьте переименновать базу в db.txt !\n\n')
 startinstall()
