@@ -41,7 +41,7 @@ u1) Module Update - обновление модулей''')
 		adminId = input('Введите id админа бота: ')
 		botChannel = input('Введите имя канала(пример - @www_project): ')
 		configFile.write('''[Bot]
-token=''' +str(BotToken)+ '''
+token=''' +str(botToken)+ '''
 adminid='''+str(adminId)+ '''
 chbot=''' + str(botChannel))
 		configFile.close()
@@ -69,7 +69,7 @@ chbot=''' + str(botChannel))
 		adminId = input('Введите id админа бота: ')
 		botChannel = input('Введите имя канала(пример - @www_project): ')
 		configFile.write('''[Bot]
-token=''' +str(BotToken)+ '''
+token=''' +str(botToken)+ '''
 adminid='''+str(adminId)+ '''
 chbot=''' + str(botChannel))
 		configFile.close()
@@ -88,7 +88,7 @@ chbot=''' + str(botChannel))
 		adminId = input('Введите id админа бота: ')
 		botChannel = input('Введите имя канала(пример - @www_project): ')
 		configFile.write('''[Bot]
-token=''' +str(BotToken)+ '''
+token=''' +str(botToken)+ '''
 adminid='''+str(adminId)+ '''
 chbot=''' + str(botChannel))
 		configFile.close()
