@@ -131,16 +131,19 @@ t = threading.Thread(target=logres, name='Thread1',)
 t.start()
 
 def serachdb(message):
-	if len(message.text) < 4 or message.text == 'qwerty' or message.text == 'qwert' or message.text == 'qwer' or message.text == '123456' or message.text == '1234' or message.text == '1234567890' or message.text == '123456654321' or message.text == '12345678900987654321' or message.text == 'qwertyuiop' or message.text == 'qwertyui' or message.text == 'qwaszx' or message.text == 'artem' or message.text == 'nikita' or message.text == 'anton' or message.text == 'andrei' or message.text == 'lox' or message.text == 'adminlox' or message.text == '1234' or message.text == '12345' or message.text == 'katya' or message.text == 'sasha' or message.text == 'putin' or message.text == 'sotka':
-		bot.send_message(message.chat.id,'Попытка выгрузки базы? Пошел нахуй.')
-		bot.send_message(adminid,'Тут этот хуй базу попытался выгрузить: \n' + 'Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n')
-	else:
-		dbpass = open('db.txt').readlines()
-		for i in iter(dbpass):
-			if message.text in i:
-				listdb = '\n' + str(i) + '\n'
-				bot.send_message(message.chat.id, '🔐Логин и пароль: \n' + listdb + '🔐')
-
+	try:
+		if len(message.text) < 4 or message.text == 'qwerty' or message.text == 'qwert' or message.text == 'qwer' or message.text == '123456' or message.text == '1234' or message.text == '1234567890' or message.text == '123456654321' or message.text == '12345678900987654321' or message.text == 'qwertyuiop' or message.text == 'qwertyui' or message.text == 'qwaszx' or message.text == 'artem' or message.text == 'nikita' or message.text == 'anton' or message.text == 'andrei' or message.text == 'lox' or message.text == 'adminlox' or message.text == '1234' or message.text == '12345' or message.text == 'katya' or message.text == 'sasha' or message.text == 'putin' or message.text == 'sotka':
+			bot.send_message(message.chat.id,'Попытка выгрузки базы? Пошел нахуй.')
+			bot.send_message(adminid,'Тут этот хуй базу попытался выгрузить: \n' + 'Сообщения: ' + message.text + '\nВремя получения: ' + time.ctime() + '\nАйди: '+ str(message.chat.id) +'\nИмя: ' + str(message.from_user.first_name) + '\nФамилия: ' + str(message.from_user.last_name) + '\nНик: @' + str(message.from_user.username)+ '\n' + 'Тип чата: '+ str(message.chat.type) +'\n\n')
+		else:
+			dbpass = open('db.txt').readlines()
+			for i in iter(dbpass):
+				if message.text in i:
+					listdb = '\n' + str(i) + '\n'
+					bot.send_message(message.chat.id, '🔐Логин и пароль: \n' + listdb + '🔐')
+	except FileNotFoundError:
+		bot.send_message(message.chat.id,'База не загружена админом!')
+		bot.send_message(adminid,'Пользователь с id:'+ message.chat.id+ '\n' + '@' + str(message.from_user.username) + 'Хотел воспользоваться поиском по базе, но база не загружена!\nПожалуйста,загрузите базу.')
 
 
 markup = types.ReplyKeyboardMarkup(row_width=2)
