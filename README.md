@@ -1,31 +1,35 @@
-# WBot-TelegramBot
-Telegram Bot проекта https://t.me/www_project     
-Russian version (Русская версия):
+# ❤️WBot-TelegramBot❤️  
+Russian version (Русская версия):  
 
-Установка:
+Проект: https://t.me/www_project  
+
+# 💻Установка:
 1. git clone https://github.com/d2nekomet/WBot-TelegramBot
 2. cd WBot-TelegramBot
-3. python3 install.py
-![WBot}(https://github.com/d2nekomet/WBot-TelegramBot/blob/master/install.png)
+3. python3 install.py  
+# 📷Скриншот:
+![WBot](https://github.com/d2nekomet/WBot-TelegramBot/blob/master/install.png)
 
 Никакой токен в бота не вводить! Все делается через install.py!!!
 
-Автор:    
-Telegram - t.me/os_people    
-Email: regadlyakoechego@tutanota.com    
+🤗Автор:  
+Telegram - t.me/os_people  
+Email - regadlyakoechego@tutanota.com    
 
-English version (Английская версия):    
+English version (Английская версия):  
 
-Project Telegram Bot https://t.me/www_project    
+Project: https://t.me/www_project  
 
-Install:    
+# 💻Install:    
 1. git clone https://github.com/d2nekomet/WBot-TelegramBot
 2. cd WBot-TelegramBot
-3. python3 install.py    
-![WBot}(https://github.com/d2nekomet/WBot-TelegramBot/blob/master/install.png)
+3. python3 install.py  
+# 📷Screenshot:
+![WBot](https://github.com/d2nekomet/WBot-TelegramBot/blob/master/install.png)
+
 
 No token the bot not to enter! All done through install.py !!!
 
-Author:    
+🤗Author:    
 Telegram - t.me/os_people    
-Email: regadlyakoechego@tutanota.com
+Email - regadlyakoechego@tutanota.com
