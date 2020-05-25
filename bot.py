@@ -143,7 +143,7 @@ def serachdb(message):
 					bot.send_message(message.chat.id, '🔐Логин и пароль: \n' + listdb + '🔐')
 	except FileNotFoundError:
 		bot.send_message(message.chat.id,'База не загружена админом!')
-		bot.send_message(adminid,'Пользователь с id:'+ message.chat.id+ '\n' + '@' + str(message.from_user.username) + 'Хотел воспользоваться поиском по базе, но база не загружена!\nПожалуйста,загрузите базу.')
+		bot.send_message(adminid,'Пользователь с id:'+ str(message.chat.id)+ '\n' + '@' + str(message.from_user.username) + 'Хотел воспользоваться поиском по базе, но база не загружена!\nПожалуйста,загрузите базу.')
 
 
 markup = types.ReplyKeyboardMarkup(row_width=2)
