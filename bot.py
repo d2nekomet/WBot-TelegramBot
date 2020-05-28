@@ -96,8 +96,7 @@ def sendMessageToChannel(message):
 	if message.text == True:
 		bot.send_message(chbot,message.text)                           #отправка сообщения на канал
 		bot.send_message(adminid,'Сообщение на канал отправлено!\nВот его текст: ' + message.text, reply_markup=admmarkup)
-	else:
-		bot.send_message(adminid,'Это не текст!\nОтправь мне текст т.к я пока-что не умею публиковать фото и видео.',reply_markup=admmarkup)
+
 def restartlog():
 	global logs
 	try:
