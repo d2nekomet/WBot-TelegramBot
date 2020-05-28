@@ -122,7 +122,7 @@ def restartlog():
 
 def logres():
 	while True:
-		if time.strftime("%H:%M:%S") == '17:17:10':
+		if time.strftime("%H:%M:%S") == '00:00:00':
 			bot.send_message(adminid,'Логи обновлены!')
 			restartlog()
 			time.sleep(1)
@@ -332,5 +332,5 @@ logstart()
 
 def polling():
 	bot.polling(none_stop=True) # а тут у нас херь чтобы на медленном интернете не ломался бот
-	time.sleep(1.5)
+	time.sleep(1)
 polling()
